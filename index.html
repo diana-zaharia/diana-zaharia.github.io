@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dianaz — Backend Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #F5F0E8;
+      --cream-2:  #EDE7D9;
+      --ink:      #1A1814;
+      --ink-soft: #5A5550;
+      --accent:   #2D6A4F;  /* muted forest green — nod to Go's gopher palette */
+      --rule:     #D6CFC3;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: var(--cream);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 4rem;
+      max-width: 860px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: var(--mono);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 .cursor {
+      display: inline-block;
+      width: 0.55em;
+      height: 0.9em;
+      background: var(--accent);
+      vertical-align: middle;
+      margin-left: 0.1em;
+      animation: blink 1.1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-links a {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .hero-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 860px;
+      padding: 5rem 3rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3rem;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0 2rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .exp-item:last-child { border-bottom: none; }
+
+    .exp-dates {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      padding-top: 0.2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .exp-role {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-company {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      text-decoration: none;
+    }
+
+    .exp-company:hover { text-decoration: underline; }
+
+    .exp-desc {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ── STACK BADGE ── */
+    .stack {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      color: var(--ink-soft);
+      background: var(--cream-2);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── GIF PLACEHOLDER ── */
+    .gif-placeholder {
+      width: 96px;
+      height: 96px;
+      background: var(--cream-2);
+      border: 1px dashed var(--rule);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .gif-placeholder span {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--ink-soft);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .exp-dates { padding-top: 0; }
+      footer { padding: 1.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero h1 .cursor { animation: none; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">dianaz<span>_</span></a>
+    <ul>
+      <li><a href="#about">about</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="mailto:dianaszaharia@gmail.com">contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" id="about">
+    <p class="hero-eyebrow">senior software engineer · backend · bucharest, ro</p>
+
+    <h1>dianaz<span class="cursor"></span></h1>
+
+    <!-- swap the gif-placeholder div for your actual <img> when ready -->
+    <div class="gif-placeholder">
+      <span>your 8-bit<br>gif here</span>
+    </div>
+
+    <p class="hero-bio">
+      My career arc goes: break software → fix software → build software → accidentally become the person who also owns the infrastructure.
+      From telecom billing to payment systems, via a brief detour through everything else.
+      Currently holding firm against opening a café. It would also sell books. And plants.
+    </p>
+
+    <div class="hero-links">
+      <a href="https://github.com/diana-zaharia" target="_blank" rel="noopener">github ↗</a>
+      <a href="https://www.linkedin.com/in/dianaszaharia" target="_blank" rel="noopener">linkedin ↗</a>
+      <a href="mailto:dianaszaharia@gmail.com">email ↗</a>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">experience</p>
+
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <span class="exp-dates">2021 – present</span>
+        <div>
+          <p class="exp-role">Senior Software Engineer</p>
+          <a class="exp-company" href="https://form3.tech" target="_blank" rel="noopener">Form3 ↗</a>
+          <p class="exp-desc">
+            Worked on core payment processing infrastructure handling SEPA Direct Debit and Credit Transfer schemes.
+            Delivered high-stakes migrations, incident remediations, and customer-facing changes —
+            with a consistent focus on zero-disruption rollouts and thorough on-call support.
+          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <span class="exp-dates">2019 – 2021</span>
+        <div>
+          <p class="exp-role">Software Development Engineer</p>
+          <a class="exp-company" href="https://arezzosky.com/index.html" target="_blank" rel="noopener">Arezzo Sky ↗</a>
+          <p class="exp-desc">
+            Backend engineer on a no-code data processing platform.
+            Worked across feature development, testing strategy, and CI/CD pipelines —
+            introducing contract testing with Pact and helping shape quality practices from early on.
+          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <span class="exp-dates">2013 – 2019</span>
+        <div>
+          <p class="exp-role">Senior SDET → Software Testing Technical Lead</p>
+          <a class="exp-company" href="https://optymyze.com" target="_blank" rel="noopener">Optymyze ↗</a>
+          <p class="exp-desc">
+            Grew from testing engineer to technical lead over six years. Built and maintained automation
+            frameworks across web and mobile, introduced API and contract testing across feature teams,
+            and led hiring, onboarding, and internal training programmes.
+          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <span class="exp-dates">2010 – 2013</span>
+        <div>
+          <p class="exp-role">User Acceptance Test Engineer</p>
+          <a class="exp-company" href="https://mindcti.com" target="_blank" rel="noopener">MIND CTI ↗</a>
+          <p class="exp-desc">
+            Led UAT for telecom billing systems across the full product lifecycle — from design through
+            go-live and post-launch support — for international clients including Eastlink in Canada.
+            Delivered on-site acceptance testing, trained new team members, and presented directly to clients.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="stack">
+      <span class="badge">Go</span>
+      <span class="badge">Java</span>
+      <span class="badge">Spring</span>
+      <span class="badge">PostgreSQL</span>
+      <span class="badge">Kubernetes</span>
+      <span class="badge">Terraform</span>
+      <span class="badge">AWS</span>
+      <span class="badge">NATS</span>
+      <span class="badge">TDD</span>
+    </div>
+  </section>
+
+  <footer>
+    © dianaz · built with html & ceremonial matcha
+  </footer>
+
+</body>
+</html>
